@@ -12,6 +12,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Services.AddTransient<IProductoService, ProductoService>();
+builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 
 builder.Services.AddDbContext<TiendaOnline.Data.ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
