@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using TiendaOnline.Interfaces;
@@ -11,6 +12,9 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Services.AddTransient<IProductoService, ProductoService>();
+
+builder.Services.AddDbContext<TiendaOnline.Data.ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // FIN INJECCION DE SERVICIOS PARA CONTROLADORES 
 
