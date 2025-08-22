@@ -86,5 +86,12 @@ namespace TiendaOnline.Services
                 return false;
             }
         }
+
+        public async Task<User> Login(LoginUsuarioDto loginUsuarioDto)
+        {
+            var usuario = await context.Users.FirstOrDefaultAsync(x => x.Email == loginUsuarioDto.Email);
+
+            return usuario;
+        }
     }
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TiendaOnline.DTOS;
@@ -8,6 +9,7 @@ namespace TiendaOnline.Controllers
 {
     [ApiController]
     [Route("api/v1/productos")]
+    [Authorize]
 
     public class ProdudctController : ControllerBase
     {
@@ -112,7 +114,7 @@ namespace TiendaOnline.Controllers
             }
 
             var success = await productoService.PatchProducto(patchDoc, productDb);
-            
+
             if (!success)
             {
                 return StatusCode(500, "Error al aplicar el patch");

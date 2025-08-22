@@ -19,6 +19,7 @@ namespace TiendaOnline.Utilities
             CreateMap<CrearUsuarioDto, User>().ForMember(dest => dest.PasswordHash, config => config.MapFrom(src => BCrypt.Net.BCrypt.HashPassword(src.PasswordHash)));
             CreateMap<User, CrearUsuarioDto>();
             CreateMap<PatchUsuarioDto, User>().ReverseMap();
+            CreateMap<CredencialesUsuarioDto, User>().ReverseMap();
         }
     }
 }

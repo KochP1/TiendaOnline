@@ -12,5 +12,6 @@ namespace TiendaOnline.Interfaces
         Task<UsuarioDto> ObtenerUsuarioPorId(int id);
         Task<IEnumerable<UsuarioDto>> ObtenerUsuarios();
         Task<bool> PatchUsuario(JsonPatchDocument<PatchUsuarioDto> patchDoc, User usuarioDb);
+        public Task<User> Login(LoginUsuarioDto loginUsuarioDto);
     }
 }

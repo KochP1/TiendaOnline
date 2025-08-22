@@ -1,7 +1,13 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using TiendaOnline.DTOS;
 using TiendaOnline.Interfaces;
+using TiendaOnline.Models;
 
 namespace TiendaOnline.Controllers
 {
@@ -12,11 +18,13 @@ namespace TiendaOnline.Controllers
     {
         private readonly IUsuarioService usuarioService;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public UsuarioController(IUsuarioService usuarioService, IMapper mapper)
+        public UsuarioController(IUsuarioService usuarioService, IMapper mapper, IConfiguration configuration)
         {
             this.usuarioService = usuarioService;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -67,6 +75,34 @@ namespace TiendaOnline.Controllers
             }
         }
 
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginUsuarioDto loginUsuarioDto)
+        {
+            try
+            {
+                var usuario = await usuarioService.Login(loginUsuarioDto);
+
+                if (!BCrypt.Net.BCrypt.Verify(loginUsuarioDto.Password, usuario.PasswordHash))
+                {
+                    Console.WriteLine("Me ejecuto");
+                    return Unauthorized();
+                }
+
+                if (usuario is null)
+                {
+                    Console.WriteLine("Usuario nulo");
+                    return NotFound();
+                }
+
+                var response = ConstruirToken(usuario);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex}");
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -78,6 +114,43 @@ namespace TiendaOnline.Controllers
             }
 
             return NoContent();
+        }
+
+        private RespuestaAutentificacionDto ConstruirToken(User usuario)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("userId", usuario.UserId.ToString()),
+                new Claim("email", usuario.Email),
+                new Claim("nombre", usuario.FirstName),
+                new Claim("apellido", usuario.LastName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            // Si tienes roles personalizados, puedes agregarlos así:
+            // claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+            // claims.Add(new Claim(ClaimTypes.Role, "User"));
+
+            var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["llavejwt"]!));
+            var credenciales = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
+
+            var expiracion = DateTime.UtcNow.AddYears(1);
+
+            var tokenSeguridad = new JwtSecurityToken(
+                issuer: null,
+                audience: null,
+                claims: claims,
+                expires: expiracion,
+                signingCredentials: credenciales
+            );
+
+            var token = new JwtSecurityTokenHandler().WriteToken(tokenSeguridad);
+
+            return new RespuestaAutentificacionDto
+            {
+                Token = token,
+                Expiracion = expiracion
+            };
         }
     }
 }
