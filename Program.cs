@@ -1,5 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using TiendaOnline.Interfaces;
+using TiendaOnline.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,8 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 // INJECCION DE SERVICIOS PARA CONTROLADORES 
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+builder.Services.AddTransient<IProductoService, ProductoService>();
 
 // FIN INJECCION DE SERVICIOS PARA CONTROLADORES 
 
