@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-// INJECCION DE SERVICIOS PARA CONTROLADORES 
+// INYECCION DE SERVICIOS PARA CONTROLADORES 
 builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 builder.Services.AddTransient<IProductoService, ProductoService>();
@@ -16,7 +16,7 @@ builder.Services.AddTransient<IProductoService, ProductoService>();
 builder.Services.AddDbContext<TiendaOnline.Data.ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// FIN INJECCION DE SERVICIOS PARA CONTROLADORES 
+// FIN INYECCION DE SERVICIOS PARA CONTROLADORES 
 
 // SERVICIO SWAGGER
 builder.Services.AddSwaggerGen(opciones =>

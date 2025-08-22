@@ -10,6 +10,7 @@ namespace TiendaOnline.Utilities
         {
             CreateMap<CrearProductoDto, Product>().ReverseMap();
             CreateMap<ProductoDto, Product>().ReverseMap();
+            CreateMap<PatchProductDto, Product>().ReverseMap();
         }
     }
 }
