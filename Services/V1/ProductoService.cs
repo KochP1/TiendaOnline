@@ -39,6 +39,13 @@ namespace TiendaOnline.Services
             return productoDto;
         }
 
+        public async Task<Product> ObtenerProductModelPorId(int id)
+        {
+            var producto = await context.Products.FirstOrDefaultAsync(x => x.ProductId == id);
+
+            return producto;
+        }
+
         public async Task<ProductoDto> CrearProducto(CrearProductoDto crearProductoDto)
         {
             var product = mapper.Map<Product>(crearProductoDto);

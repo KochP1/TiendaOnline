@@ -10,6 +10,7 @@ namespace TiendaOnline.Interfaces
         Task<ProductoDto> CrearProducto(CrearProductoDto crearProductoDto);
         Task<IEnumerable<ProductoDto>> ObtenerProductos();
         Task<ProductoDto> ObtenerProductPorId(int id);
+        public Task<Product> ObtenerProductModelPorId(int id);
         Task<bool> PatchProducto(JsonPatchDocument<PatchProductDto> patchDoc, Product productDb);
     }
 }

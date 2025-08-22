@@ -1,4 +1,6 @@
 using AutoMapper;
+using Azure;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TiendaOnline.DTOS;
 using TiendaOnline.Interfaces;
@@ -65,6 +67,59 @@ namespace TiendaOnline.Controllers
             {
                 return StatusCode(500, $"Error: {ex}");
             }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                var result = await productoService.BorrarProducto(id);
+
+                if (!result)
+                {
+                    return NotFound();
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex}");
+            }
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(int id, JsonPatchDocument<PatchProductDto> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest("Patch document is required");
+            }
+
+            // Obtener entidad desde el servicio
+            var productDb = await productoService.ObtenerProductModelPorId(id);
+            if (productDb == null)
+            {
+                return NotFound();
+            }
+
+            var productPatchDto = mapper.Map<PatchProductDto>(productDb);
+            patchDoc.ApplyTo(productPatchDto, ModelState);
+
+            if (!TryValidateModel(productPatchDto))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            var success = await productoService.PatchProducto(patchDoc, productDb);
+            
+            if (!success)
+            {
+                return StatusCode(500, "Error al aplicar el patch");
+            }
+
+            return NoContent();
         }
     }
 }
