@@ -133,4 +133,10 @@ dotnet add package Microsoft.IdentityModel.Tokens
 dotnet add package System.IdentityModel.Tokens.Jwt
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 
+{
+  "productId": 4,
+  "quantity": 2,
+  "unitPrice": 6.99
+}
+
 */
