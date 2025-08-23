@@ -11,5 +11,6 @@ namespace TiendaOnline.DTOS
         public string FirstName { get; set; } = null!;
 
         public string LastName { get; set; } = null!;
+        public required CrearCarritoDto Carrito { get; set; }
     }
 }

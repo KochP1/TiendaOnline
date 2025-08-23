@@ -10,6 +10,8 @@ using TiendaOnline.Interfaces;
 using TiendaOnline.Models;
 using TiendaOnline.Services;
 
+Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(Program));
@@ -19,6 +21,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options => options.Serialize
 
 builder.Services.AddTransient<IProductoService, ProductoService>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
+builder.Services.AddTransient<ICarritoService, CarritoService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -123,6 +126,11 @@ app.Run();
     "password": "1145"
 }
 
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0IiwiZW1haWwiOiJqdWFuYW5kcmVza29jaHBAZ21haWwuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiS29jaCIsImp0aSI6IjkzZDBjZDM3LWU0ZGUtNDcxYy1iMTEzLTM0MThmNWI4ZmNlZSIsImV4cCI6MTc4NzQzMTc1Nn0.Jy35HtjH1ntjs7lR7iOr5wdBaEmc_9xWRgbTpPgDkXY
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiZW1haWwiOiJqdWFuYW5kcmVza29jaHBAZ21haWwuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiS29jaCIsImp0aSI6ImUyZDEyYzBkLTY5OWEtNDFhMC04NDc2LWNkMTY1MWQ3MTE1MyIsImV4cCI6MTc4NzUwODA5N30.nLb1XAlr-Pc50CbPoJONaZLXKvyNTpTBOufAdEfDszM
+
+JWT PACKAGES
+dotnet add package Microsoft.IdentityModel.Tokens
+dotnet add package System.IdentityModel.Tokens.Jwt
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 
 */

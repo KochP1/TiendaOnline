@@ -47,7 +47,16 @@ namespace TiendaOnline.Services
         public async Task<UsuarioDto> CrearUsuario(CrearUsuarioDto crearUsuarioDto)
         {
             var usuario = mapper.Map<User>(crearUsuarioDto);
+
             context.Users.Add(usuario);
+            await context.SaveChangesAsync();
+
+            var carrito = new Cart
+            {
+                UserId = usuario.UserId,
+            };
+
+            context.Carts.Add(carrito);
             await context.SaveChangesAsync();
 
             var usuarioDto = mapper.Map<UsuarioDto>(usuario);

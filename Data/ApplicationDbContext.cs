@@ -34,13 +34,13 @@ public partial class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-S5Q2S88; Database=ECommerceDB; Trusted_Connection=True; TrustServerCertificate=True;");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-M4IK36Q; Database=ECommerceDB; Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cart>(entity =>
         {
-            entity.HasKey(e => e.CartId).HasName("PK__Carts__2EF52A276F681DF4");
+            entity.HasKey(e => e.CartId).HasName("PK__Carts__2EF52A276191C5C6");
 
             entity.Property(e => e.CartId).HasColumnName("cart_id");
             entity.Property(e => e.CreatedDate)
@@ -68,7 +68,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<CartItem>(entity =>
         {
-            entity.HasKey(e => e.CartItemId).HasName("PK__Cart_Ite__5D9A6C6ECB91FC34");
+            entity.HasKey(e => e.CartItemId).HasName("PK__Cart_Ite__5D9A6C6EDDFE6CDF");
 
             entity.ToTable("Cart_Items");
 
@@ -101,9 +101,9 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Order>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__46596229A961540F");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__46596229F6D6A030");
 
-            entity.HasIndex(e => e.OrderNumber, "UQ__Orders__730E34DFED1514F4").IsUnique();
+            entity.HasIndex(e => e.OrderNumber, "UQ__Orders__730E34DF3FBD1C0F").IsUnique();
 
             entity.Property(e => e.OrderId).HasColumnName("order_id");
             entity.Property(e => e.BillingAddress)
@@ -142,7 +142,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<OrderItem>(entity =>
         {
-            entity.HasKey(e => e.OrderItemId).HasName("PK__Order_It__3764B6BCD11780F4");
+            entity.HasKey(e => e.OrderItemId).HasName("PK__Order_It__3764B6BC44DCB64F");
 
             entity.ToTable("Order_Items");
 
@@ -171,7 +171,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Payment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__Payments__ED1FC9EA28EF4EB5");
+            entity.HasKey(e => e.PaymentId).HasName("PK__Payments__ED1FC9EA8C97B93A");
 
             entity.Property(e => e.PaymentId).HasColumnName("payment_id");
             entity.Property(e => e.Amount)
@@ -200,7 +200,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Product>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__47027DF58BA6A5E6");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__47027DF572803912");
 
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.Category)
@@ -230,7 +230,7 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<Shipping>(entity =>
         {
-            entity.HasKey(e => e.ShippingId).HasName("PK__Shipping__059B15A9845F95C6");
+            entity.HasKey(e => e.ShippingId).HasName("PK__Shipping__059B15A9924C94B1");
 
             entity.ToTable("Shipping");
 
@@ -264,9 +264,9 @@ public partial class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Users__B9BE370F20440DD5");
+            entity.HasKey(e => e.UserId).HasName("PK__Users__B9BE370FBA720BF2");
 
-            entity.HasIndex(e => e.Email, "UQ__Users__AB6E616403DDB343").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__Users__AB6E6164CB625710").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.CreatedAt)

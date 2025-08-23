@@ -11,12 +11,12 @@ namespace TiendaOnline.Controllers
     [Route("api/v1/productos")]
     [Authorize]
 
-    public class ProdudctController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IProductoService productoService;
         private readonly IMapper mapper;
 
-        public ProdudctController(IProductoService productoService, IMapper mapper)
+        public ProductController(IProductoService productoService, IMapper mapper)
         {
             this.productoService = productoService;
             this.mapper = mapper;
@@ -98,7 +98,6 @@ namespace TiendaOnline.Controllers
                 return BadRequest("Patch document is required");
             }
 
-            // Obtener entidad desde el servicio
             var productDb = await productoService.ObtenerProductModelPorId(id);
             if (productDb == null)
             {

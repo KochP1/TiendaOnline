@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
 
 namespace TiendaOnline.Models;
 
@@ -8,9 +7,9 @@ public partial class User
 {
     public int UserId { get; set; }
 
-    public required string Email { get; set; } = null!;
+    public string Email { get; set; } = null!;
 
-    public required string PasswordHash { get; set; } = null!;
+    public string PasswordHash { get; set; } = null!;
 
     public string FirstName { get; set; } = null!;
 
