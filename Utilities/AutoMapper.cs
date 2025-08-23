@@ -32,6 +32,7 @@ namespace TiendaOnline.Utilities
             CreateMap<CarritoItemDto, CartItem>();
             CreateMap<CartItem, CrearCarritoItemDto>().ReverseMap();
             CreateMap<CarritoItemDtoSinProducto, CartItem>().ReverseMap();
+            CreateMap<CartItem, PatchCarritoItemDto>().ReverseMap();
         }
     }
 }

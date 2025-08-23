@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using TiendaOnline.Data;
 using TiendaOnline.DTOS;
@@ -28,6 +29,12 @@ namespace TiendaOnline.Services
             return carritoDto;
         }
 
+        public async Task<CartItem> ObtenerCartItemPorId(int id)
+        {
+            var cartItem = await context.CartItems.FirstOrDefaultAsync(x => x.CartItemId == id);
+            return cartItem;
+        }
+
         public async Task<CarritoItemDtoSinProducto> AñadirItem(int id, CrearCarritoItemDto crearCarritoItemDto)
         {
             var carrito = await context.Carts.FirstOrDefaultAsync(x => x.UserId == id);
@@ -55,6 +62,25 @@ namespace TiendaOnline.Services
             context.CartItems.Remove(record);
             await context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> PatchCarritoItem(JsonPatchDocument<PatchCarritoItemDto> patchDoc, CartItem cartItemDb)
+        {
+            try
+            {
+                var patchCarritoItemDto = mapper.Map<PatchCarritoItemDto>(cartItemDb);
+
+                patchDoc.ApplyTo(patchCarritoItemDto);
+
+                mapper.Map(patchCarritoItemDto, cartItemDb);
+
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

@@ -121,11 +121,6 @@ app.Run();
 
 /*
 
-{
-    "email": "juanandreskochp@gmail.com",
-    "password": "1145"
-}
-
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiZW1haWwiOiJqdWFuYW5kcmVza29jaHBAZ21haWwuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiS29jaCIsImp0aSI6ImUyZDEyYzBkLTY5OWEtNDFhMC04NDc2LWNkMTY1MWQ3MTE1MyIsImV4cCI6MTc4NzUwODA5N30.nLb1XAlr-Pc50CbPoJONaZLXKvyNTpTBOufAdEfDszM
 
 JWT PACKAGES

@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TiendaOnline.DTOS;
@@ -103,10 +104,44 @@ namespace TiendaOnline.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpPatch]
+        public async Task<ActionResult> Patch(JsonPatchDocument<PatchUsuarioDto> patchDoc)
         {
-            var result = await usuarioService.BorrarUsuario(id);
+            var userId = User.FindFirst("userId")?.Value;
+            if (patchDoc == null)
+            {
+                return BadRequest("Patch document is required");
+            }
+
+            var usuarioDb = await usuarioService.ObtenerUserModelPorId(int.Parse(userId!));
+            if (usuarioDb == null)
+            {
+                return NotFound();
+            }
+
+            var patchUsuarioDto = mapper.Map<PatchUsuarioDto>(usuarioDb);
+            patchDoc.ApplyTo(patchUsuarioDto, ModelState);
+
+            if (!TryValidateModel(patchUsuarioDto))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            var success = await usuarioService.PatchUsuario(patchDoc, usuarioDb);
+
+            if (!success)
+            {
+                return StatusCode(500, "Error al aplicar el patch");
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete()
+        {
+            var userId = User.FindFirst("userId")?.Value;
+            var result = await usuarioService.BorrarUsuario(int.Parse(userId!));
 
             if (!result)
             {

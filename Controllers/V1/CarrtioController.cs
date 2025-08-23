@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TiendaOnline.DTOS;
 using TiendaOnline.Interfaces;
@@ -50,6 +51,38 @@ namespace TiendaOnline.Controllers
             {
                 return StatusCode(500, $"Error: {ex.Message}");
             }
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult> Patch(int id, JsonPatchDocument<PatchCarritoItemDto> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest("Patch document is required");
+            }
+
+            var cartItemDb = await carritoService.ObtenerCartItemPorId(id);
+            if (cartItemDb == null)
+            {
+                return NotFound();
+            }
+
+            var patchCarritoItemDto = mapper.Map<PatchCarritoItemDto>(cartItemDb);
+            patchDoc.ApplyTo(patchCarritoItemDto, ModelState);
+
+            if (!TryValidateModel(patchCarritoItemDto))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            var success = await carritoService.PatchCarritoItem(patchDoc, cartItemDb);
+
+            if (!success)
+            {
+                return StatusCode(500, "Error al aplicar el patch");
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
