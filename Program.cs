@@ -120,26 +120,11 @@ app.UseSwaggerUI();
 app.MapControllers();
 app.Run();
 
-// dotnet ef dbcontext scaffold "Server=DESKTOP-S5Q2S88; Database=tubd; Trusted_Connection=True; TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --context-dir Data --context ApplicationDbContext --force
+// dotnet ef dbcontext scaffold "Server=DESKTOP-#######; Database=tubd; Trusted_Connection=True; TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models --context-dir Data --context ApplicationDbContext --force
 
 /*
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzIiwiZW1haWwiOiJqdWFuYW5kcmVza29jaHBAZ21haWwuY29tIiwibm9tYnJlIjoiSnVhbiIsImFwZWxsaWRvIjoiS29jaCIsImp0aSI6ImUyZDEyYzBkLTY5OWEtNDFhMC04NDc2LWNkMTY1MWQ3MTE1MyIsImV4cCI6MTc4NzUwODA5N30.nLb1XAlr-Pc50CbPoJONaZLXKvyNTpTBOufAdEfDszM
-
 JWT PACKAGES
 dotnet add package Microsoft.IdentityModel.Tokens
 dotnet add package System.IdentityModel.Tokens.Jwt
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-
-{
-  "shippingAddress": "Sector Paraiso",
-  "billingAddress": "Avenida Bellavista"
-}
-
-{
-  "productId": 4,
-  "quantity": 2,
-  "unitPrice": 6.99
-}
-
 */
