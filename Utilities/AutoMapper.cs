@@ -51,8 +51,14 @@ namespace TiendaOnline.Utilities
                 .ForMember(dest => dest.Order, opt => opt.Ignore())       // Ignorar la navegación
                 .ForMember(dest => dest.Product, opt => opt.Ignore());    // Ignorar la navegación
 
-            // Y el mapeo inverso si lo necesitas
             CreateMap<OrderItem, CrearOrdenItemDto>();
+
+            // PAGOS
+            CreateMap<Payment, PagoConOrdenDto>()
+                .ForMember(dest => dest.Orden, config => config.MapFrom(src => src.Order));
+            CreateMap<PagoDto, Payment>().ReverseMap();
+            CreateMap<CrearPagoDto, Payment>().ReverseMap();
+            CreateMap<PatchPagoDto, Payment>().ReverseMap();
         }
     }
 }

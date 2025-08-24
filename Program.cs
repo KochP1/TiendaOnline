@@ -23,6 +23,7 @@ builder.Services.AddTransient<IProductoService, ProductoService>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<ICarritoService, CarritoService>();
 builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IPagoService, PagoService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
