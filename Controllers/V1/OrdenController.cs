@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TiendaOnline.DTOS;
 using TiendaOnline.Interfaces;
@@ -7,6 +8,7 @@ namespace TiendaOnline.Controllers
 {
     [ApiController]
     [Route("api/v1/ordenes")]
+    [Authorize]
 
     public class OrdenController : ControllerBase
     {

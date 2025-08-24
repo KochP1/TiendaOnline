@@ -19,7 +19,7 @@ namespace TiendaOnline.DTOS
         public string ShippingAddress { get; set; } = null!;
 
         public string BillingAddress { get; set; } = null!;
-        public required User Usuario { get; set; }
+        public required UsuarioDto Usuario { get; set; }
         public List<OrdenItemDto> OrdenItems { get; set; } = [];
     }
 }

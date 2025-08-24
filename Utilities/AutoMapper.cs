@@ -41,7 +41,9 @@ namespace TiendaOnline.Utilities
             CreateMap<Order, CrearOrdenDto>();
             CreateMap<Order, OrdenDto>().ReverseMap();
             CreateMap<OrderItem, OrdenItemDto>().ReverseMap();
-            CreateMap<Order, OrdenDetalladaDto>().ForMember(dest => dest.OrdenItems, config => config.MapFrom(src => src.OrderItems));
+            CreateMap<Order, OrdenDetalladaDto>()
+                .ForMember(dest => dest.OrdenItems, config => config.MapFrom(src => src.OrderItems))
+                .ForMember(dest => dest.Usuario, config => config.MapFrom(src => src.User));
             CreateMap<OrdenDetalladaDto, Order>();
             CreateMap<CrearOrdenItemDto, OrderItem>()
                 .ForMember(dest => dest.OrderItemId, opt => opt.Ignore()) // Si es identity

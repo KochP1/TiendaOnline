@@ -20,7 +20,7 @@ namespace TiendaOnline.Services
 
         public async Task<IEnumerable<OrdenDetalladaDto>> ObtenerOrdenPorId(int id)
         {
-            var ordenes = await context.Orders.Where(x => x.UserId == id).Include(x => x.OrderItems).ThenInclude(x => x.Product).ToListAsync();
+            var ordenes = await context.Orders.Where(x => x.UserId == id).Include(x => x.User).Include(x => x.OrderItems).ThenInclude(x => x.Product).ToListAsync();
             var ordenesDto = mapper.Map<IEnumerable<OrdenDetalladaDto>>(ordenes);
             return ordenesDto;
         }

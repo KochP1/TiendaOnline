@@ -2,6 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace TiendaOnline.Controllers
 {
     [ApiController]
     [Route("api/v1/usuarios")]
+    [Authorize]
 
     public class UsuarioController : ControllerBase
     {
@@ -63,6 +65,7 @@ namespace TiendaOnline.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> Post(CrearUsuarioDto crearUsuarioDto)
         {
             try
@@ -77,6 +80,7 @@ namespace TiendaOnline.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult> Login(LoginUsuarioDto loginUsuarioDto)
         {
             try
