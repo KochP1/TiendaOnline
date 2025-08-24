@@ -59,6 +59,12 @@ namespace TiendaOnline.Utilities
             CreateMap<PagoDto, Payment>().ReverseMap();
             CreateMap<CrearPagoDto, Payment>().ReverseMap();
             CreateMap<PatchPagoDto, Payment>().ReverseMap();
+
+            // ENTREGAS
+            CreateMap<Shipping, EntregaDetalladaDto>().ForMember(dest => dest.Orden, config => config.MapFrom(src => src.Order));
+            CreateMap<Shipping, EntregaDto>().ReverseMap();
+            CreateMap<Shipping, CrearEntregaDto>().ReverseMap();
+            CreateMap<Shipping, PatchEntregaDto>().ReverseMap();
         }
     }
 }
