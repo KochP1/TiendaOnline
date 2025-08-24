@@ -22,6 +22,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options => options.Serialize
 builder.Services.AddTransient<IProductoService, ProductoService>();
 builder.Services.AddTransient<IUsuarioService, UsuarioService>();
 builder.Services.AddTransient<ICarritoService, CarritoService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -127,6 +128,11 @@ JWT PACKAGES
 dotnet add package Microsoft.IdentityModel.Tokens
 dotnet add package System.IdentityModel.Tokens.Jwt
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+{
+  "shippingAddress": "Sector Paraiso",
+  "billingAddress": "Avenida Bellavista"
+}
 
 {
   "productId": 4,

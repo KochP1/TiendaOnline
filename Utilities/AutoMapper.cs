@@ -33,6 +33,23 @@ namespace TiendaOnline.Utilities
             CreateMap<CartItem, CrearCarritoItemDto>().ReverseMap();
             CreateMap<CarritoItemDtoSinProducto, CartItem>().ReverseMap();
             CreateMap<CartItem, PatchCarritoItemDto>().ReverseMap();
+
+            // ORDENES
+            CreateMap<CrearOrdenDto, Order>()
+                .ForMember(dest => dest.OrderItems, opt => opt.Ignore())
+                .ForMember(dest => dest.OrderId, opt => opt.Ignore());
+            CreateMap<Order, CrearOrdenDto>();
+            CreateMap<Order, OrdenDto>().ReverseMap();
+            CreateMap<OrderItem, OrdenItemDto>().ReverseMap();
+            CreateMap<Order, OrdenDetalladaDto>().ForMember(dest => dest.OrdenItems, config => config.MapFrom(src => src.OrderItems));
+            CreateMap<OrdenDetalladaDto, Order>();
+            CreateMap<CrearOrdenItemDto, OrderItem>()
+                .ForMember(dest => dest.OrderItemId, opt => opt.Ignore()) // Si es identity
+                .ForMember(dest => dest.Order, opt => opt.Ignore())       // Ignorar la navegación
+                .ForMember(dest => dest.Product, opt => opt.Ignore());    // Ignorar la navegación
+
+            // Y el mapeo inverso si lo necesitas
+            CreateMap<OrderItem, CrearOrdenItemDto>();
         }
     }
 }
