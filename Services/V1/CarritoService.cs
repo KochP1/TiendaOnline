@@ -43,22 +43,26 @@ namespace TiendaOnline.Services
 
             carritoItem.CartId = carrito!.CartId;
 
+            carrito.TotalAmount = (carritoItem.UnitPrice * carritoItem.Quantity) + (carrito.TotalAmount ?? 0);
             context.CartItems.Add(carritoItem);
+            context.Carts.Update(carrito);
             await context.SaveChangesAsync();
 
             var newCarritoItemDto = mapper.Map<CarritoItemDtoSinProducto>(carritoItem);
             return newCarritoItemDto;
         }
 
-        public async Task<bool> BorrarItem(int id)
+        public async Task<bool> BorrarItem(int id, int userId)
         {
             var record = await context.CartItems.FirstOrDefaultAsync(x => x.CartItemId == id);
+            var carrito = await context.Carts.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (record is null)
             {
                 return false;
             }
 
+            await ActualizarTotalCarrito(carrito!, record);
             context.CartItems.Remove(record);
             await context.SaveChangesAsync();
             return true;
@@ -81,6 +85,13 @@ namespace TiendaOnline.Services
             {
                 return false;
             }
+        }
+
+        private async Task ActualizarTotalCarrito(Cart carrito, CartItem cartItem)
+        {
+            carrito.TotalAmount = (carrito.TotalAmount ?? 0) - (cartItem.Subtotal ?? 0);
+            context.Carts.Update(carrito);
+            await context.SaveChangesAsync();
         }
     }
 }

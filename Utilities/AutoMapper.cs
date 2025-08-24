@@ -28,6 +28,7 @@ namespace TiendaOnline.Utilities
 
             // CARRITO
             CreateMap<Cart, CarritoDto>().ForMember(dest => dest.CarritoItems, config => config.MapFrom(src => src.CartItems));
+            CreateMap<CarritoDto, Cart>();
             CreateMap<CartItem, CarritoItemDto>().ForMember(dest => dest.Producto, config => config.MapFrom(src => src.Product));
             CreateMap<CarritoItemDto, CartItem>();
             CreateMap<CartItem, CrearCarritoItemDto>().ReverseMap();

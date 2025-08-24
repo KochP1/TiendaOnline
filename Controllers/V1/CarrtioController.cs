@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using TiendaOnline.DTOS;
 using TiendaOnline.Interfaces;
+using TiendaOnline.Models;
 
 namespace TiendaOnline.Controllers
 {
@@ -90,7 +91,8 @@ namespace TiendaOnline.Controllers
         {
             try
             {
-                var result = await carritoService.BorrarItem(id);
+                var userId = User.FindFirst("userId")?.Value;
+                var result = await carritoService.BorrarItem(id, int.Parse(userId));
 
                 if (!result)
                 {

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using TiendaOnline.Data;
 using TiendaOnline.DTOS;
@@ -25,6 +26,12 @@ namespace TiendaOnline.Services
             return ordenesDto;
         }
 
+        public async Task<Order> ObtenerOrdenModelPorId(int id)
+        {
+            var orden = await context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
+            return orden;
+        }
+
         public async Task<OrdenDto> CrearOrden(CrearOrdenDto crearOrdenDto, int id)
         {
             var carrito = await context.Carts.Include(x => x.CartItems).ThenInclude(x => x.Product).FirstOrDefaultAsync(x => x.UserId == id);
@@ -35,6 +42,7 @@ namespace TiendaOnline.Services
             orden.OrderTotal = carrito.TotalAmount ?? 0m;
 
             var ordenItemsDto = CrearOrdenItems(carrito, orden);
+            await LimpiarCarrito(carrito);
             var ordenItems = mapper.Map<ICollection<OrderItem>>(ordenItemsDto);
             orden.OrderItems = ordenItems;
 
@@ -42,6 +50,39 @@ namespace TiendaOnline.Services
             await context.SaveChangesAsync();
             var ordenDto = mapper.Map<OrdenDto>(orden);
             return ordenDto;
+        }
+
+        public async Task<bool> PatchOrden(JsonPatchDocument<PatchOrden> patchDoc, Order ordenDb)
+        {
+            try
+            {
+                var patchOrden = mapper.Map<PatchOrden>(ordenDb);
+
+                patchDoc.ApplyTo(patchOrden);
+
+                mapper.Map(patchOrden, ordenDb);
+
+                await context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> BorrarOrden(int id)
+        {
+            var orden = await context.Orders.FirstOrDefaultAsync(x => x.OrderId == id);
+
+            if (orden is null)
+            {
+                return false;
+            }
+
+            context.Orders.Remove(orden);
+            await context.SaveChangesAsync();
+            return true;
         }
 
         private ICollection<CrearOrdenItemDto> CrearOrdenItems(Cart carrito, Order order)
@@ -61,6 +102,18 @@ namespace TiendaOnline.Services
             }
 
             return ordenItems;
+        }
+
+        private async Task LimpiarCarrito(Cart carrito)
+        {
+            foreach (var item in carrito.CartItems)
+            {
+                context.CartItems.Remove(item);
+            }
+
+            carrito.TotalAmount = 0;
+            context.Carts.Update(carrito);
+            await context.SaveChangesAsync();
         }
     }
 }
